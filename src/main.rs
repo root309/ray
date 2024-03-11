@@ -1,4 +1,6 @@
-use std::io::{self, Write};
+mod vec3;
+use vec3::Vec3;
+use std::io::{self, Write, stderr};
 
 fn main() -> io::Result<()> {
     let image_width = 256;
@@ -7,7 +9,7 @@ fn main() -> io::Result<()> {
     println!("P3\n{} {}\n255", image_width, image_height);
 
     for j in (0..image_height).rev() {
-        eprintln!("Scanlines remaining: {}", j);
+        eprintln!("\rScanlines remaining: {}", j + 1);
         for i in 0..image_width {
             let r = i as f32 / (image_width - 1) as f32;
             let g = j as f32 / (image_height - 1) as f32;
@@ -20,6 +22,8 @@ fn main() -> io::Result<()> {
             println!("{} {} {}", ir, ig, ib);
         }
     }
+
+    eprintln!("\rDone.                 ");
 
     Ok(())
 }
