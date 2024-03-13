@@ -1,1 +1,3 @@
-RayTracing
+```
+cargo run > image.ppm
+```
