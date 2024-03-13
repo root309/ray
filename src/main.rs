@@ -5,6 +5,11 @@ use vec3::{Color, Vec3, Point3};
 use ray::Ray;
 
 fn ray_color(r: &Ray) -> Color {
+    if r.hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5) {
+        // Return red if intersecting with a sphere
+        return Color::new(1.0, 0.0, 0.0);
+    }
+    // Otherwise, set background to gradient
     let unit_direction = r.direction().unit_vector();
     let t = 0.5 * (unit_direction.y() + 1.0);
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
