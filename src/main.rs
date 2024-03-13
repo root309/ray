@@ -5,14 +5,16 @@ use vec3::{Color, Vec3, Point3};
 use ray::Ray;
 
 fn ray_color(r: &Ray) -> Color {
-    if r.hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5) {
+    let t = r.hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5);
+    if t > 0.0 {
         // Return red if intersecting with a sphere
-        return Color::new(1.0, 0.0, 0.0);
+        let N = (r.at(t) - Vec3::new(0.0, 0.0, -1.0)).unit_vector();
+        return 0.5 * Color::new(N.x() + 1.0, N.y() + 1.0, N.z() + 1.0);
     }
     // Otherwise, set background to gradient
     let unit_direction = r.direction().unit_vector();
-    let t = 0.5 * (unit_direction.y() + 1.0);
-    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+    let a = 0.5 * (unit_direction.y() + 1.0);
+    (1.0 - a) * Color::new(1.0, 1.0, 1.0) + a * Color::new(0.5, 0.7, 1.0)
 }
 
 fn main() {

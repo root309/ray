@@ -22,12 +22,16 @@ impl Ray {
         self.orig + t * self.dir
     }
 
-    pub fn hit_sphere(&self, center: &Point3, radius: f64) -> bool {
+    pub fn hit_sphere(&self, center: &Point3, radius: f64) -> f64 {
         let oc = *self.origin() - *center;
         let a = self.direction().dot(self.direction());
         let b = 2.0 * oc.dot(self.direction());
         let c = oc.dot(&oc) - radius * radius;
         let discriminant = b*b - 4.0*a*c;
-        discriminant >= 0.0
+        if discriminant < 0.0 {
+            -1.0
+        } else {
+            (-b - discriminant.sqrt()) / (2.0 * a)
+        }
     }
 }
